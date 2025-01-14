@@ -1,0 +1,64 @@
+import { create } from 'zustand';
+import { customFetch } from '@posteve/utils/fetch/customFetch';
+import { userDetails, UserStore } from './user.interface';
+
+const cachedRes = new Map<string, any>();
+
+export const useUserStore = create<UserStore>((set, get) => ({
+  user: null,
+  auth: () => {
+    if (cachedRes.has('user')) {
+      return !!cachedRes.get('user');
+    }
+    return !!get().user;
+  },
+  deleteUser: async () => {
+    if (cachedRes.has('user')) {
+      cachedRes.delete('user');
+    }
+    set({ user: null });
+    return;
+  },
+  setUserId: async () => {
+    try {
+      let user;
+      if (cachedRes.has('user')) {
+        user = cachedRes.get('user') as userDetails;
+        set({ user: user.id });
+        return;
+      }
+      const { data } = await customFetch('/api/user/me', {
+        method: 'GET',
+      });
+      user = data as userDetails;
+
+      // console.log({ userinStore: user });
+      if (user) {
+        console.log('setting cachedRes', user);
+        cachedRes.set('user', user);
+        set((state) => ({ ...state, user: user.id }));
+      }
+      return;
+    } catch (error) {
+      throw error;
+      // console.log('userstore.setuserId error ', error);
+    }
+  },
+  fetchUserDetails: async () => {
+    try {
+      if (cachedRes.has('user')) {
+        console.log('user details fetched form cachedRes');
+        return cachedRes.get('user') as userDetails;
+      }
+      const { data } = await customFetch('/api/user/me');
+      if (data) {
+        console.log('setting userDetails in cachedRes', data);
+        cachedRes.set('user', data);
+        set({ user: data.id });
+        return data as userDetails;
+      }
+    } catch (error) {
+      console.log('userstore.fetchUserDetails error ', error);
+    }
+  },
+}));

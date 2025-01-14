@@ -1,0 +1,9 @@
+multipart -> contentType where you can send multiple payloads
+it further can multiple subtypes: https://developer.mozilla.org/en-US/docs/Web/HTTP/MIME_types
+
+form-data is one of them where you can send multiple payloads in form (key - value)
+considered as files (inbuilt func nestjs -> UploadedFile() file: )
+multipart/form-data (when ever you need to send more than one payload)
+
+mimetypes---  image/*(jpg/png/webp)  video/*(mp4/mov/mkv)
+

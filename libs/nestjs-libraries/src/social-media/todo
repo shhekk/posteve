@@ -1,0 +1,37 @@
+
+today todo is convert LinkedinProvider as genereal socialProvider that can be use for every platforms
+
+
+
+
+
+
+
+
+
+
+work in sequence- 
+- database : setup user, post , platforms accrodingly  (agr ye hogya to 2nd task bhi start ho jayega aur thoda broader kam kr payenge)
+- post Platform ke posting options like (text, media, poll, ...)
+- more works on twitter api like callbacks(or leave it for now as you can't use localhost and you need to provide website url)
+
+first setup database for platforms so that you can store accesstokens and don't have make more request to api for accesstokens and not have to verify pin
+
+bsdk kya testing krna hai
+-linked connect , post with text and media
+-frontend bna le you can't use curl for testing again and again
+-x me post kr ke dekh
+
+/platform/connect
+->code:
+AQSvghGm2QLMhTQeySeh64dSIoDEgnueE1lv61L9On-mWlPWBfx05FaNv5Pzvb3cdEi0_mbJLGzAwPBL6_nFcayDps9cKR-dXWfavKGCKsbo7VwuLY0Yygi3iM-zctZXbfRHlwceBZ77Zueul9vPJGFgoSfvpbT-z8HnI43STlp3gxwTl6KssL4dCc7UulP7NG53ykzhuWXQNGzuoCE
+
+redirects to callback url in frontend and frontend makes request again to get this:
+access_token	"AQWXY6t0xI-_yFl8miL9wh8oGhxTy4dH6Q1BBAbN6FD1FR7HpR9uPR5UODN-1CIaAP4lE_AESScPEVTyBIBh54-9OkVAmno3dHnfTiTTj81xYri17evE9PZFGQTSRAffbaKUsMIBXGXSA7XxMk1Az2Dou514gnx76Ip35-HI05rtauRUI181coaV62Cr7JXiGap9RcvN_XlPhLF2Tmm4Bn_ry5rmY-TH7AIbNRtN726Ut_aCx7-RYkaBeuhGw0CmBXGFlGpLyZGdIFWnkl6BpTkKPZug2eJ7NbSUAMl34K3MyJd1Wftk13hysDC9LwpODdfDIK54h_WI8SZCAI49T_G3Ic08Xw"
+expires_in	5183999
+scope	"email,openid,profile,w_member_social"
+token_type	"Bearer"
+id_token	"eyJ6aXAiOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImQ5Mjk2NjhhLWJhYjEtNGM2OS05NTk4LTQzNzMxNDk3MjNmZiIsImFsZyI6IlJTMjU2In0.eyJpc3MiOiJodHRwczovL3d3dy5saW5rZWRpbi5jb20vb2F1dGgiLCJhdWQiOiI4NnVuaHd5b2hzdTR2aSIsImlhdCI6MTczMzk5NzMyOSwiZXhwIjoxNzM0MDAwOTI5LCJzdWIiOiJVRjY2X1l0RGd6IiwibmFtZSI6IkFiaGlzaGVrIEt1bWFyIiwiZ2l2ZW5fbmFtZSI6IkFiaGlzaGVrIiwiZmFtaWx5X25hbWUiOiJLdW1hciIsImVtYWlsIjoiYWFkYXJzaHJhajcwOTRAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOiJ0cnVlIiwibG9jYWxlIjoiZW5fVVMifQ.xuYOTA2cgpJ13_75BlWYS1g3kw3mJb7tb7fGmQ9V-tJVEyAHV9vw4y4DM5bnghtU3jN5DzGMvBNkji0Pzq3ROcOuDs9ddhr_hRLdyAnn0SOLrcQo-drpP31rH7Y8oJE_aOflZk3lyObT9fse-mDTRym0V_I9joiRkI3zIdM8HKYwgpHicXnFeipJfvybkeIA7J958kl71RfjgNFMecSDcjfgI8xwMTazMhqCw-GM44iXNROoV6AOHgKZrLkxfCmNsuRaDeAZLZUJUVTc7gvbs9ZKHJoqlc3vCnITEkcc31-oz_8tnTt0Nv-YsP68zO8xTsGJQ4ce5oOj8aHH_srFq0GiPD8G6lvUBScSA7JuEKJURM-VZoGqIVTVlGRxQJ3AwEk90MJy37-8YQdrkteyq9Sp_kh-uTFcvvGdm-ql8x0rcOiuLdmaM5k4RT9qaJziCpbCiFhU3OR-hpR4l9FZwQDFeKHUgNSnH5qggLXvR5eDxgNGqSEOxuz6P_iLGr1nTZi6qK0S5849dbk_xgWtM77dhxql0okwDQ1mJwxEMC_zxaPY61aFBRBzrDYEKj1ItREt1_6E87HFChev-CVzpS083WzGAq3b3ZLuBMhWOSYVdzKBdBa0qX0dusGsMOEealqJiAKxJrtSeu_GKPxTKI-N1YEaHgMDdccsl-YR9uA"
+
+/platform/connect/{identifier}
+/platform/post/{identifier}

@@ -1,0 +1,193 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(uuid())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  username  String     @unique
+  email     String     @unique
+  password  String
+  verified  Boolean    @default(false)
+  post      Post[] //user can have multiple post
+  platform  Platform[] //user can have multiple platform
+
+  @@map("users")
+}
+
+model Post {
+  id         String   @id @default(cuid())
+  updatedAt  DateTime @updatedAt
+  createdAt  DateTime @default(now())
+  content    String?
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  media      Media[]
+  platform   Platform @relation(fields: [platformId], references: [id])
+  platformId String //each post is assigned to a platform
+
+  @@map("posts")
+}
+
+model Media {
+  id          String    @id @default(cuid())
+  type        MediaType
+  url         String //cloudinary url
+  title       String?
+  description String?
+  Post        Post      @relation(fields: [postId], references: [id])
+  postId      String //can be post or other entity types like user profile picture
+  //give some limited options
+}
+
+model Platform {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  identifier   String //name of the provider to identify(x, linkedin, )
+  token        String //save accesstoken as (token:secret) 
+  //if secret req. extract it using indexof(:) > -1 && split(:) = [token, secret]
+  expiresIn    String //expiry time of access token
+  // requestToken String //request Token -> application token (par bc chaiye kyu kisi kam ka to nhi rha use kebad)
+  refreshToken String? //for renewAccessTOken
+  urn          String //user id inside the platform 
+  posts        Post[]
+  updatedAt    DateTime @updatedAt
+  createdAt    DateTime @default(now())
+
+  @@unique([userId, identifier]) //identified as userId_identifier denotes 1 user -> 1 platform
+  @@map("platform")
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+}
+
+// enum State {
+//   QUEUE
+//   PUBLISHED
+//   ERROR
+//   DRAFT
+// }
+
+//model Media{
+//  type string @default(image/jpg) 
+//  
+// } 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
