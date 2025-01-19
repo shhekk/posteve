@@ -19,6 +19,26 @@ export const useUserStore = create<UserStore>((set, get) => ({
     set({ user: null });
     return;
   },
+  initUser: async () => {
+    try {
+      //initially user should not fetched from cached res
+      let user;
+      const { data } = await customFetch('/api/user/me', {
+        method: 'GET',
+      });
+      user = data as userDetails;
+
+      // console.log({ userinStore: user });
+      if (user) {
+        console.log('user fetched from api, setting cachedRes', user);
+        cachedRes.set('user', user);
+        set((state) => ({ ...state, user: user.id }));
+      }
+      return;
+    } catch (error) {
+      console.log('error in initializing user', error);
+    }
+  },
   setUserId: async () => {
     try {
       let user;
@@ -60,5 +80,13 @@ export const useUserStore = create<UserStore>((set, get) => ({
     } catch (error) {
       console.log('userstore.fetchUserDetails error ', error);
     }
+  },
+  getUsername: () => {
+    let username;
+    if (cachedRes.has('user')) {
+      console.log('user details fetched form cachedRes');
+      username = (cachedRes.get('user') as userDetails).username;
+    }
+    return username || 'username-404';
   },
 }));

@@ -5,9 +5,11 @@
   "private": true,
   "scripts": {
     "build": "webpack --config web.config.js",
+    "dev": "npx nx run-many -t serve",
     "start:dev": "webpack serve --config apps/server/webpack.config.js --mode development --hot",
     "dev:server": "npx nx run server:serve:development --skip-nx-cache ",
-    "dev:client": "npx nx run client:serve:development",
+    "dev:s": "npx nx run server:serve:development ",
+    "dev:client": "npx nx run client:serve:development --skip-nx-cache",
     "prisma:studio": "cd libs/nestjs-libraries/src/database && npx prisma studio",
     "prisma:generate": "cd libs/nestjs-libraries/src/database && npx prisma generate",
     "prisma:migrate": "cd libs/nestjs-libraries/src/database && npx prisma migrate dev",
@@ -23,6 +25,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@mui/joy": "^5.0.0-beta.51",
     "@mui/material": "^6.3.0",
     "@nestjs/common": "^10.0.2",
     "@nestjs/config": "^3.3.0",
@@ -87,6 +90,7 @@
     "@vitejs/plugin-react": "^4.2.0",
     "@vitest/coverage-v8": "^1.0.4",
     "@vitest/ui": "^1.3.1",
+    "code-inspector-plugin": "^0.19.2",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "2.31.0",

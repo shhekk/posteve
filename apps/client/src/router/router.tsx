@@ -12,11 +12,12 @@ import {
   Auth
 } from '@client/pages';
 import SuspenseWrapper from '@client/lib/components/suspenseWrapper';
+import { Loading } from '@client/lib/components';
 
 export enum Routes {
   ROOT = '/',
   AUTH = '/auth',
-  HOME = '/home',
+  HOME = '/',
   CONNECT = '/connect',
   POST = '/post',
   LOGOUT = '/logout',
@@ -84,6 +85,10 @@ export const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: '/check',
+        element: <Loading/>
+      }
     ],
   },
 ]);

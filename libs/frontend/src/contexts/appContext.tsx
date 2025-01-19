@@ -36,7 +36,8 @@ export const AppContextProvider = ({
     const intializeUser = new Promise(async (res, rej) => {
       try {
         console.log('inituser error');
-        res(await userStore.setUserId());
+        //on each reload user should not be fetched from cached res
+        res(await userStore.initUser());
       } catch (error) {
         rej(error);
       }

@@ -8,15 +8,19 @@ export function Loading(): React.JSX.Element {
   return (
     <div
       style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
+        position: 'fixed',
+        margin: 'auto',
+        inset: 0,
+        //just to make margin auto work set w,h for proper scalling
+        width: 'fit-content',
+        height: 'fit-content',
       }}
     >
       <Loader2Icon
         style={{
           animation: 'spin 1s linear infinite',
+          width: 80,
+          height: 80,
         }}
       />
       <style>{spin}</style>
