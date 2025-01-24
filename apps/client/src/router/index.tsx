@@ -9,10 +9,9 @@ import {
   Post,
   Verify,
   Logout,
-  Auth
+  Auth,
 } from '@client/pages';
-import SuspenseWrapper from '@client/lib/components/suspenseWrapper';
-import { Loading } from '@client/lib/components';
+import { Loading, SuspenseWrapper } from '@client/lib/components';
 
 export enum Routes {
   ROOT = '/',
@@ -74,6 +73,7 @@ export const router = createBrowserRouter([
           {
             path: Routes.CONNECT,
             element: <Connect />,
+            // children: [{ path: '/:provider' }],
           },
           {
             path: Routes.POST,
@@ -87,8 +87,8 @@ export const router = createBrowserRouter([
       },
       {
         path: '/check',
-        element: <Loading/>
-      }
+        element: <Loading />,
+      },
     ],
   },
 ]);

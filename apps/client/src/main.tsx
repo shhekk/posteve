@@ -1,6 +1,6 @@
 import * as ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
-import { router } from './router/router';
+import { router } from './router';
 import React from 'react';
 import { AppContextProvider } from '@client/lib/contexts/appContext';
 

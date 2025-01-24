@@ -1,7 +1,7 @@
 import { asdf } from '@web/const';
 import { Dropdown, Menu, MenuButton, MenuItem } from '@mui/joy';
-import { useUserStore } from '../store/user';
-import { DropdownMenu } from './DropdownMenu';
+import { useUserStore } from '@client/lib/store/user';
+import { DropdownMenu } from '@client/lib/components/DropdownMenu';
 import { useNavigate } from 'react-router-dom';
 import { BotIcon, Icon, LogOutIcon } from 'lucide-react';
 import { customFetch } from '@posteve/utils/fetch/customFetch';
@@ -53,7 +53,7 @@ export function UserBanner(p: any) {
             // border: '1px solid blue',
             roots: 'div',
             width: '100%',
-            margin: '4px 0px' ,
+            margin: '4px 0px',
 
             // backgroundColor: 'gold',
             display: 'flex',
@@ -89,7 +89,8 @@ export function UserBanner(p: any) {
             <span
               style={{
                 fontSize: 17, //text-lg
-                //to enable ... if the word exceeds the width (truncate)
+                //to enable truncate set the width
+                // where to set width:  (parent el/itself) or set adjacent children (width and display block) (truncate)-- but this will work only if both content is in same line
                 // so if username is like "goblin asdfasdfasd", -> goblin asd...
                 overflow: 'hidden', //
                 whiteSpace: 'nowrap', //turn off the font wrap, to avoid new line after white space

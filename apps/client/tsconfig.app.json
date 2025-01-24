@@ -23,7 +23,7 @@
     "vitest.config.ts",
     "vitest.config.mts"
   ],
-  "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx", "../../libs/frontend/src/components/suspenseWrapper.tsx"]
+  "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx", "../../libs/frontend/src/components/suspenseWrapper.tsx", "../../libs/frontend/src/components/Error.tsx"]
 }
 
 //but i got this error in compiler options: Composite projects may not disable declaration emit.ts

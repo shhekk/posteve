@@ -1,48 +1,9 @@
-import { Routes } from '@client/router/router';
-import { collapseClasses, Tooltip } from '@mui/material';
-import {
-  CalendarSyncIcon,
-  Handshake,
-  HomeIcon,
-  Rss,
-  Share,
-} from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { UserBanner } from './userBanner';
+import navItems from './NavItems';
 
-interface NavItem {
-  to: string;
-  title: string;
-  key: string;
-  icon: React.ReactNode;
-}
 export function Navigation(p: any) {
-  let iconStyle: React.CSSProperties = {
-    width: 24,
-    height: 'auto',
-    display: 'block', //to completely cover the parent element. -- otherwise adds extra pixels by parent
-    color: 'rgb(31 41 55)',
-  };
-  const Home: NavItem = {
-    to: Routes.HOME,
-    title: 'Home',
-    key: 'header-home',
-    icon: <HomeIcon style={iconStyle} />,
-  };
-  const Connect: NavItem = {
-    to: Routes.CONNECT,
-    title: 'Connect',
-    key: 'header-connect',
-    icon: <Rss style={iconStyle} />,
-  };
-  const Post: NavItem = {
-    to: Routes.POST,
-    title: 'Post',
-    key: 'header-post',
-    icon: <CalendarSyncIcon style={iconStyle} />,
-  };
-
-  const navList: NavItem[] = [Home, Connect, Post];
+  const navList = navItems();
 
   return (
     <header
@@ -60,8 +21,8 @@ export function Navigation(p: any) {
       <div
         style={{
           // border: '1px solid blue',
-          padding: '6px 4px',
-          // width: '100%',
+          // padding: '6px 4px',
+          width: '100%',
           //padding: 'topbottom rightleft'
         }}
       >
@@ -70,14 +31,14 @@ export function Navigation(p: any) {
             to={n.to}
             key={n.key}
             style={{
-              // background: 'red',
+              background: 'red',
               marginTop: 6,
               display: 'flex',
               flexDirection: 'row',
-              justifyContent: !p.collapse ? 'flex-start': 'center',
+              justifyContent: !p.collapse ? 'flex-start' : 'center',
               alignItems: 'center',
               borderRadius: '1rem',
-              padding: !p.collapse ? '8px 16px' : 8,
+              padding: !p.collapse ? '10px 16px' : 10,
               fontSize: 18,
               textDecoration: 'none',
               // backgroundColor: 'red',
@@ -87,12 +48,17 @@ export function Navigation(p: any) {
               style={
                 p.collapse
                   ? {
-                      // width: 24,
+                      width: 24,
                       display: 'flex',
                       justifyContent: 'center',
                       alignItems: 'center',
                     }
-                  : {}
+                  : {
+                      width: 24,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }
               }
             >
               {n.icon}
@@ -104,7 +70,7 @@ export function Navigation(p: any) {
               <div
                 style={{
                   marginLeft: 12,
-                  //truncate -- for this to work the width should be fixed or not more that the width it will trucate
+                  //truncate -- for this to work, width should be fixed or not more that the width it will trucate
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',

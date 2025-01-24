@@ -45,11 +45,6 @@ aside:hover {
   display: 'block';
 }
 
-main {
-  /*temp*/
-  background-color: white;
-}
-
 /*React-router NavLinks add active class on anchor tag if active*/
 a {
   color: var(--text-light);

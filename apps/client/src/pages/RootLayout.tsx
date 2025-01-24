@@ -1,15 +1,17 @@
-import { Loading, Navigation } from '@client/lib/components';
-import SuspenseWrapper from '@client/lib/components/suspenseWrapper';
+import { Loading, Navigation, SuspenseWrapper } from '@client/lib/components';
 import { useWidth } from '@client/lib/hooks';
 import { useUserStore } from '@client/lib/store/user';
+import { Button } from '@mui/material';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export function RootLayout() {
   const [init, setInit] = useState(false);
   const { user } = useUserStore();
-  // const { lg } = useWidth();
-  const [collapse, setCollapse] = useState<boolean>();
+  const { sm } = useWidth();
+  const [collapse, setCollapse] = useState<boolean>(
+    localStorage.getItem('collapse') === 'true' ? true : false
+  );
 
   useEffect(() => {
     console.log('rootlayout rendered', user);
@@ -40,12 +42,12 @@ export function RootLayout() {
           justifyContent: 'center',
           alignItems: 'flex-start',
           marginInline: 'auto',
+          paddingLeft: collapse ? '4rem' : '14rem',
         }}
       >
         {/* left side bar */}
         {/*nav + collapse btn  @todo learn prefer-color-scheme in css */}
         <aside
-          className="left-sidebar"
           style={{
             // background: 'rgb(250,250,250) ',
             display: 'flex',
@@ -58,7 +60,7 @@ export function RootLayout() {
             top: 0,
             left: 0,
             height: '100%',
-            // zIndex: 2,
+            zIndex: 2, //so that main contain doesn't overlap
             // only this time strict width applied -- rest of content inside will manage with width 100%
             // boxShadow: horizontal vertical blur spread
             paddingInline: !collapse ? '16px' : '8px',
@@ -88,9 +90,16 @@ export function RootLayout() {
               flexGrow: 1,
               // border: '1px solid blue',
             }}
+            //or apply rel-absolute and make child bottom: 0;
           >
             <div
-              onClick={() => setCollapse((prev) => !prev)}
+              onClick={() => {
+                //@todo fix collapse localstorage -- or -- set collpase in zustand appearence store
+                setCollapse((prev) => {
+                  localStorage.setItem('collapse', String(!prev));
+                  return !prev;
+                });
+              }}
               style={{
                 // backgroundColor: 'red',
                 // border: '1px solid red',
@@ -101,7 +110,7 @@ export function RootLayout() {
                 width: '100%',
               }}
             >
-              <div
+              <Button
                 style={{
                   // border: '1px solid blue',
                   cursor: 'pointer',
@@ -112,7 +121,7 @@ export function RootLayout() {
                   alignItems: 'center',
                   gap: 4,
                   margin: '64px 0px',
-                  marginLeft: !collapse ? '-5rem' : '',
+                  marginLeft: !collapse ? '-6rem' : '',
                   padding: !collapse ? '10px 2px' : 10,
                 }}
               >
@@ -134,7 +143,7 @@ export function RootLayout() {
                     <div>Collapse</div>
                   </>
                 )}
-              </div>
+              </Button>
             </div>
           </div>
         </aside>
@@ -143,11 +152,10 @@ export function RootLayout() {
             width: '100%',
             display: 'flex',
             justifyContent: 'center',
-            padding: 5,
             // border: '1rem solid red',
           }}
         >
-          <div>height will inc automattically depending on content height</div>
+          {/* <div>height will inc automattically depending on content height</div> */}
           <SuspenseWrapper />
         </main>
       </div>

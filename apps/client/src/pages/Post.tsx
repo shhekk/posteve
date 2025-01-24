@@ -10,6 +10,9 @@ export function Post() {
   return (
     <>
       <div>
+        "home -- post details on claendarrrr"
+        "connect -- connect "
+        "post -- upload and schedule post"
         <Button onClick={postHandler}>post</Button>
       </div>
     </>

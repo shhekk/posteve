@@ -2,7 +2,7 @@ import { useAppContext } from '@client/lib/hooks/useAppContext';
 import { useWidth, useWindowSize } from '@client/lib/hooks';
 import { useUserStore } from '@client/lib/store/user';
 import { userDetails } from '@client/lib/store/user/user.interface';
-import { Routes } from '@client/router/router';
+import { Routes } from '@client/router';
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Tooltip } from '@mui/material';
