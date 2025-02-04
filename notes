@@ -7,3 +7,54 @@ multipart/form-data (when ever you need to send more than one payload)
 
 mimetypes---  image/*(jpg/png/webp)  video/*(mp4/mov/mkv)
 
+https://ia800702.us.archive.org/21/items/welcometothenhk/1.mp4 followed to 24.mp4
+
+npm i @mantine/modals @mantine/notifications  -> add only req. components
+https://mantine.dev/x/modals/ -> popup with cancle and confirm buttons and many feature like multistep popups etc
+https://mantine.dev/x/dropzone/ -> drag and drop files
+https://mantine.dev/x/notifications/ -> toaster
+https://mantine.dev/x/tiptap/ -> text editor
+
+// export const PlatForms: Provider[] = [
+//   {
+//     identifier: '',
+//     title: 'Linkedin',
+//     logoURL:
+//       'https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/LinkedIn_icon.svg/1200px-LinkedIn_icon.svg.png',
+//     key: 'linkedin-logo',
+//     style: imageStyle,
+//   },
+//   {
+//     // identifier: '',title: 'Twitter',
+//     identifier: '',
+//     title: 'X',
+//     logoURL: 'https://upload.wikimedia.org/wikipedia/commons/b/b7/X_logo.jpg',
+//     key: 'twitter-logo',
+//     style: imageStyle,
+//   },
+//   {
+//     identifier: '',
+//     title: 'Instagram',
+//     logoURL:
+//       'https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg',
+//     key: 'instagram-logo',
+//     style: imageStyle,
+//   },
+//   {
+//     identifier: '',
+//     title: 'Facebook',
+//     // logoURL: '/full-logo.webp',
+//     logoURL:
+//       'https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png',
+//     key: 'facebook-logo',
+//     style: imageStyle,
+//   },
+//   {
+//     identifier: '',
+//     title: 'Linkedin Page',
+//     logoURL:
+//       'https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/LinkedIn_icon.svg/1200px-LinkedIn_icon.svg.png',
+//     key: 'linkedin-page-logo',
+//     style: imageStyle,
+//   },
+// ];

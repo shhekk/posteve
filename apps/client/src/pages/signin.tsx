@@ -53,7 +53,7 @@ export function Signin() {
       console.log('user signed in successfully, ', { data: res.data });
 
       setTimeout(() => {
-        alert('redirecting user to posteve...')
+        alert('redirecting user to posteve...');
         n('/'); //don't do redirecting in authentication pages app will itself take care of it
       }, 1500);
       return;

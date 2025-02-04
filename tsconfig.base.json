@@ -19,6 +19,7 @@
       "@client/lib/*": ["libs/frontend/src/*"],
       "@posteve/nestjs-libraries/*": ["libs/nestjs-libraries/src/*"],
       "@posteve/utils/*": ["libs/utils/src/*"],
+      "@utils/*": ["libs/utils/src/*"],
       "@web/*": ["apps/client/src/*"] //for vite.config.ts -- resolve.alias
     }
   },

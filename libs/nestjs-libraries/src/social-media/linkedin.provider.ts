@@ -5,6 +5,9 @@ import {
 } from './platform.interface';
 
 export class LinkedinProvider extends SocialAbstract implements SocialProvider {
+  title = 'Linkedin';
+  logoURL =
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/LinkedIn_icon.svg/1200px-LinkedIn_icon.svg.png';
   identifier = 'linkedin';
   scope = ['openid', 'profile', 'w_member_social', 'email'];
   key = process.env['LINKEDIN_KEY']!;
@@ -76,7 +79,7 @@ export class LinkedinProvider extends SocialAbstract implements SocialProvider {
     return {
       id, //https://learn.microsoft.com/en-us/linkedin/shared/api-guide/concepts/urns#urns
       accessToken: access_token,
-      expiresIn: String(expires_in * 1000),
+      expiresIn: String(Date.now() + expires_in * 1000),
       refreshToken: refresh_token,
     };
     //@todo while fetching this accesstoken from database do check it is expired, only fetch if it is not expired

@@ -1,11 +1,17 @@
 import { useAppContext } from '@client/lib/hooks/useAppContext';
-import { useWidth, useWindowSize } from '@client/lib/hooks';
+import {
+  useAsyncEffect,
+  usePlatformList,
+  useWidth,
+  useWindowSize,
+} from '@client/lib/hooks';
 import { useUserStore } from '@client/lib/store/user';
 import { userDetails } from '@client/lib/store/user/user.interface';
 import { Routes } from '@client/router';
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Tooltip } from '@mui/material';
+import { customFetch } from '@posteve/utils/fetch/customFetch';
 
 export function Home(): React.JSX.Element {
   const { user } = useAppContext();
@@ -13,7 +19,9 @@ export function Home(): React.JSX.Element {
   const [userDetails, setUserDetails] = useState<userDetails>();
   const { width, height } = useWindowSize();
   const { lg } = useWidth();
-  console.log('home rendered');
+  const [d, setD] = useState<any>();
+  // const { platformList } = usePlatformList();
+  // console.log('home rendered', platformList);
   useEffect(() => {
     //fetch user from cached res
     fetchUserDetails().then((d) => {
@@ -21,6 +29,17 @@ export function Home(): React.JSX.Element {
         setUserDetails(d);
       }
     });
+
+  // customFetch('/api/platform').then((d) => {
+  //   console.log(d);
+  //   setD(JSON.stringify(d.data));
+  // });
+  }, []);
+  useAsyncEffect(async () => {
+    const { data } = await customFetch('/api/platform');
+    if (data) {
+      setD(JSON.stringify(data));
+    }
   }, []);
   return (
     <>
@@ -43,6 +62,8 @@ export function Home(): React.JSX.Element {
         <p>alsdjflkasjdfl </p>
         <p>{width}</p>
         <p>{height}</p>
+        <p>{d}</p>
+        {/* <p>{JSON.stringify(platformList)}</p> */}
         {lg && <p>lg : true</p>}
       </div>
     </>

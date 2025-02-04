@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { PlatForms } from '@client/lib/components/Connect';
+import { PlatFormList } from '@client/lib/components/Connect';
 import { Tooltip } from '@mui/joy';
+import { usePlatformList } from '@client/lib/hooks';
 
 export function Connect() {
   const [err, setErr] = useState<boolean>(),
     [data, setData] = useState<string>(),
-    { provider } = useParams(),
+    // { provider } = useParams(),
+    // [provider, setProvider] = useState<Providers>()
     code = new URLSearchParams(useLocation().search).get('code');
 
   return (
@@ -41,70 +43,18 @@ export function Connect() {
               margin: '10px 18px',
             }}
           >
-            <p style={{ fontSize: 24, fontWeight: 'bolder' }}>
+            <p style={{ fontSize: 22, fontWeight: 'bolder' }}>
               Connect Platform
             </p>
           </div>
           <div
             style={{
               width: '100%',
-              // border: '1px solid black',
-              padding: '14px 18px',
-              //to wrap the element in next row
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '1rem',
+              margin: '14px 18px',
               // background: 'yellow',
             }}
           >
-            {PlatForms.map((p) => (
-              <Tooltip title={p.title} placement="bottom" arrow>
-                <div
-                  onClick={() => console.log('@todo replace code connect platform')}
-                  key={p.key}
-                  // title={p.title}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    // padding: '4px 8px',
-                    width: 90,
-                    cursor: 'pointer',
-                    // border: '1px solid black',
-                  }}
-                >
-                  <img
-                    src={p.logo}
-                    style={{
-                      // width: 70,
-                      width: '77%',
-                      // height: '77%',
-                      borderRadius: '1rem',
-                    }}
-                  />
-                  <div
-                    style={{
-                      // backgroundColor: 'pink',
-                      // width: '105%', //this caused the text to start from left
-                      maxWidth: '105%', //whereas this makes text at center while truncate enabled
-                      // -- may be because this force default width to be content width(and flex-col items-center makes it center)
-                      margin: '5px 10px 0 10px',
-                      // paddingLeft: '18px',
-                      //somehow truncate is related to display block
-                      display: 'block',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                      fontSize: 16,
-                      lineHeight: 2,
-                      // border: '4px solid black',
-                    }}
-                  >
-                    {p.title}
-                  </div>
-                </div>
-              </Tooltip>
-            ))}
+            <PlatFormList />
           </div>
         </div>
       </div>

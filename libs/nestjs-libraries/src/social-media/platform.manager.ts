@@ -1,9 +1,3 @@
-// bc class banana hai
-// sidha folder banake class banane lag jata hai soch to ki banan kyu hai
-//class hi bana padega
-//controller me hi use krega isko aur uske ke liye class chahiye agr function banayega to nestjs use krne ka point hi nhi
-// platform manager ko injection container me dalna hoga taki nestjs isko use kr ske
-
 import {
   ArgumentMetadata,
   Injectable,
@@ -13,13 +7,27 @@ import {
 import { TwitterProvider } from './twitter.provider';
 import { LinkedinProvider } from './linkedin.provider';
 import { SocialProvider } from './platform.interface';
+import { PlatformLists } from '@posteve/utils/types';
 
-const socialProviders = [new TwitterProvider(), new LinkedinProvider()];
+const socialProviders: SocialProvider[] = [
+  new TwitterProvider(),
+  new LinkedinProvider(),
+];
 
 @Injectable({})
 export class PlatformManager {
-  getPlatformList() {
-    return socialProviders.map((p) => p.identifier);
+  getPlatformList(): PlatformLists {
+    /**
+     * @todo
+     * return {
+     * title, identifier, logoUrl,
+     * }
+     */
+    return socialProviders.map((p) => ({
+      identifier: p.identifier,
+      title: p.title,
+      logoURL: p.logoURL,
+    }));
   }
 
   getPlatformInstance(identifier: string): SocialProvider {
@@ -38,8 +46,8 @@ export class validatePlatformPipe implements PipeTransform {
   transform(identifier: string, metadata: ArgumentMetadata) {
     const platformList = this._platform.getPlatformList();
     // console.log(platformList.includes(identifier));
-    console.log('validatePlatformPipe...', { identifier, metadata });
-    if (!platformList.includes(identifier)) {
+    // console.log('validatePlatformPipe...', { identifier, metadata });
+    if (!platformList.find((p) => p.identifier === identifier)) {
       throw new NotFoundException(`does not support platform: ${identifier}`);
     }
 

@@ -8,13 +8,19 @@ export function Post() {
     //does not support platform: linked
   };
   return (
-    <>
-      <div>
-        "home -- post details on claendarrrr"
-        "connect -- connect "
-        "post -- upload and schedule post"
-        <Button onClick={postHandler}>post</Button>
-      </div>
-    </>
+    <div
+      style={{
+        position: 'fixed',
+        inset: 0,
+        margin: 'auto',
+        minHeight: 'fit-content',
+        minWidth: 'fit-content',
+        // backgroundColor: 'red'
+      }}
+    >
+      "home -- post details on claendarrrr" "connect -- connect " "post --
+      upload and schedule post"
+      <Button onClick={postHandler}>post</Button>
+    </div>
   );
 }

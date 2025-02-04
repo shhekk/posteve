@@ -17,6 +17,9 @@ export interface AuthTokenBody {
 }
 
 export interface SocialProvider extends SocialAbstract {
+  title: string;
+  logoURL: string;
+  //required for frontend as, renders supported platforms title and logo in DOM
   identifier: string;
   scope?: string[];
   redirect_uri?: string;
@@ -42,13 +45,13 @@ export interface PostDetails {
 
 //put all comman methods here to acheive abstraction.(use extends keyword to use this class)
 export abstract class SocialAbstract {
-  async fetch(
+  async fetch<T = any>(
     url: string,
     options: axios.AxiosRequestConfig,
     identifier: string
   ) {
     //the only use of this function is it gurantees a successfull result.
-    const res = await axios(url, {
+    const res = await axios<T>(url, {
       ...options,
       validateStatus: () => true, //allow all status code to pass without throwing error.
       //this way it let me handle error myself
@@ -103,7 +106,7 @@ export abstract class SocialAbstract {
     if (res.status === 200 || res.status === 201) {
       let obj: { assetBuffer: any; mimeType: string } = {
         assetBuffer: res.data,
-        mimeType: 'false',  //if data is not in image or video false and post will be cancled
+        mimeType: 'false', //if data is not in image or video false and post will be cancled
       };
       const { 'Content-Type': contentType } = res.headers;
       const mimetype = lookup(url);

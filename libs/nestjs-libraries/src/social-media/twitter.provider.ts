@@ -19,6 +19,8 @@ export class TwitterProvider extends SocialAbstract implements SocialProvider {
     hash_function: (baseString, key) =>
       createHmac('sha1', key).update(baseString).digest('base64'),
   });
+  title = 'X';
+  logoURL = 'https://upload.wikimedia.org/wikipedia/commons/b/b7/X_logo.jpg';
   identifier = 'x';
   redirect_uri = process.env['FRONTEND_URL']! + `/connect/${this.identifier}`;
   scope: string[] = [];

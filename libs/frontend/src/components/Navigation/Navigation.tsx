@@ -84,16 +84,7 @@ export function Navigation(p: any) {
             }}
           >
             {/* @todo wrap this in tooltip to get title on Hover */}
-            <Tooltip
-              title={n.title}
-              placement="right"
-              arrow
-              sx={{
-                '& .MuiTooltip-tooltip': {
-                  fontSize: '20px', // Adjust this to your desired font size
-                },
-              }}
-            >
+            <Tooltip title={n.title} placement="right" arrow>
               <div
                 style={
                   p.collapse
@@ -102,7 +93,7 @@ export function Navigation(p: any) {
                         display: p.collapse ? 'block' : 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        fontSize: 36,
+                        fontSize: 18,
                       }
                     : {}
                 }

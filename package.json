@@ -9,7 +9,7 @@
     "start:dev": "webpack serve --config apps/server/webpack.config.js --mode development --hot",
     "dev:server": "npx nx run server:serve:development --skip-nx-cache ",
     "dev:s": "npx nx run server:serve:development ",
-    "dev:client": "npx nx run client:serve:development --skip-nx-cache",
+    "dev:client": "npx nx run client:serve:development ",
     "prisma:studio": "cd libs/nestjs-libraries/src/database && npx prisma studio",
     "prisma:generate": "cd libs/nestjs-libraries/src/database && npx prisma generate",
     "prisma:migrate": "cd libs/nestjs-libraries/src/database && npx prisma migrate dev",

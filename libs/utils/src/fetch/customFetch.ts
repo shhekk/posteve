@@ -9,8 +9,11 @@ class AxiosError {
     public res: any
   ) {}
 }
-export async function customFetch(path: string, options?: AxiosRequestConfig) {
-  const response = await axios(path, {
+export async function customFetch<T = any>(
+  path: string,
+  options?: AxiosRequestConfig
+) {
+  const response = await axios<T>(path, {
     ...options,
     withCredentials: true,
     validateStatus: () => true,
@@ -24,11 +27,3 @@ export async function customFetch(path: string, options?: AxiosRequestConfig) {
   }
   return response;
 }
-
-// export async function Fetch(path: string, options?: AxiosRequestConfig) {
-//   const response = await axios(path, {
-//     ...options,
-//     withCredentials: true,
-//     validateStatus: () => true,
-//   });
-// }

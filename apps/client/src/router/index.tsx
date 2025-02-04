@@ -1,4 +1,4 @@
-import { createBrowserRouter, Outlet } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 import App from '../app/app';
 import {
   Signup,
@@ -11,7 +11,8 @@ import {
   Logout,
   Auth,
 } from '@client/pages';
-import { Loading, SuspenseWrapper } from '@client/lib/components';
+import { AfterConnect } from '@client/lib/components/Connect';
+import { Loading, SuspenseWrapper, NotFound } from '@client/lib/components';
 
 export enum Routes {
   ROOT = '/',
@@ -73,7 +74,13 @@ export const router = createBrowserRouter([
           {
             path: Routes.CONNECT,
             element: <Connect />,
-            // children: [{ path: '/:provider' }],
+            children: [
+              {
+                path: '/connect/:provider',
+                // element: <>this is /connect/:provider</>,
+                element: <AfterConnect />,
+              },
+            ],
           },
           {
             path: Routes.POST,
@@ -86,8 +93,12 @@ export const router = createBrowserRouter([
         ],
       },
       {
+        path: '*',
+        element: <NotFound />,
+      },
+      {
         path: '/check',
-        element: <Loading />,
+        element: <NotFound />,
       },
     ],
   },

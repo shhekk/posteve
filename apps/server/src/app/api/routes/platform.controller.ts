@@ -29,6 +29,19 @@ export class PlatformController {
     private _userService: UserService
   ) {}
 
+  //returns all the platform List this app supports
+  @Get('/')
+  async getPlatformList() {
+    try {
+      return this._platform.getPlatformList();
+    } catch (error) {
+      return false;
+      // throw new InternalServerErrorException(
+      //   error?.message || 'Something went wrong'
+      // );
+    }
+  }
+
   @Get('connect/:identifier')
   async getAuthUrl(
     @Param('identifier', validatePlatformPipe) identifier: string
@@ -50,11 +63,13 @@ export class PlatformController {
   async connect(
     @Param('identifier', validatePlatformPipe) identifier: string,
     @Query() q: any,
-    @GetUser() user: User
+    @GetUser() user: User,
+    @Body() body: { code: string; token: string }
   ) {
     //@todo implement pkce and add codeVerifier
     try {
-      const { code, token: requestToken = null } = q;
+      const { code, token: requestToken } = body;
+      console.log('code is ::::::::::::::::::::::', code);
       if (!code) throw new NotFoundException({ err: 'code not found' });
 
       const userPlatformInstance = (
@@ -64,6 +79,7 @@ export class PlatformController {
       ).platform.find((p) => p.identifier === identifier);
       if (userPlatformInstance) {
         throw new BadRequestException({
+          //@todo need a better error handling
           err: 'social media already connected',
         });
       }
@@ -79,7 +95,7 @@ export class PlatformController {
 
       const dbres = await this._platformService.createPlatform({
         userId: user.id,
-        expiresIn,
+        expiresIn, //this should be date.now() + expiresIn
         identifier,
         urn: id,
         token,
@@ -94,7 +110,7 @@ export class PlatformController {
         //@todo catch PrismaError in catcheverythingFilter
         throw new BadRequestException({ err: true, error });
       }
-      throw new InternalServerErrorException({ err: true, error });
+      return { err: true, error };
     }
   }
 

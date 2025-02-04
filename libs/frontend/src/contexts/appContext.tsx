@@ -50,7 +50,7 @@ export const AppContextProvider = ({
         if (error.status === 500) {
           alert('server failed');
         }
-        setLoading(false)
+        setLoading(false);
       });
   }, []);
 
