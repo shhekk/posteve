@@ -3,35 +3,53 @@ import { usePlatformList } from '@client/lib/hooks';
 import { useCallback, useState } from 'react';
 import { customFetch } from '@posteve/utils/fetch/customFetch';
 import { useAsyncEffect } from '@client/lib/hooks';
-import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import {
+  Outlet,
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from 'react-router-dom';
 
 export function PlatFormList() {
   const { platformList } = usePlatformList(),
-    q = new URLSearchParams(useLocation().search),
-    n = useNavigate(),
-    [provider, setProvider] = useState<string>();
+    q = new URLSearchParams(useLocation().search);
 
   const connectReq = useCallback(async (provider: string) => {
-    console.log(provider, '---', `${q.get('code') ? q.get('code') : ''}`);
-    // ('GET /api/platform/connect/:identifier  ');
-    const { url } = (
-      await customFetch<{ url: string }>(`/api/platform/connect/${provider}`, {
-        method: 'GET',
-      })
-    ).data;
-    if (!url) {
-      //setError
-      alert('can`t get url: ');
-      return;
+    try {
+      console.log(provider, '---', `${q.get('code') ? q.get('code') : ''}`);
+      const { url, token, err } = (
+        await customFetch<{ url: string; token: string; err: any }>(
+          `/api/platform/connect/${provider}`,
+          {
+            method: 'GET',
+          }
+        )
+      ).data;
+      console.log({ url, token, err });
+      if (err) {
+        console.log(err as string);
+        alert(err as string);
+        return;
+      }
+      if (!url) {
+        //setError
+        alert('can`t get url: ');
+        return;
+      }
+      token && sessionStorage.setItem('x-token', token);
+      alert(`redirecting to ${provider.toUpperCase()} platform`);
+      setTimeout(() => {
+        // n(url, { state: { token } });
+        // redirect(url);
+        window.location.href = url; //ye bhi kr skte hai kyu ki apne aap hi to redirect hoga wapas is app me as i have given redirect_url in linkedin developer app
+        //but point is after the user authorized the app they will redirected to /connect/:identifier(linkedin/x/or/anyplatforms)
+        //so you need to create a child route
+      }, 2000);
+    } catch (err) {
+      alert('something went wrong');
+      console.log(err);
     }
-    alert(`redirecting to ${provider.toUpperCase()} platform`);
-    setTimeout(() => {
-      // n(url, { state: { token } });
-      // redirect(url);
-      window.location.href = url; //ye bhi kr skte hai kyu ki apne aap hi to redirect hoga wapas is app me as i have given redirect_url in linkedin developer app
-      //but point is after the user authorized the app they will redirected to /connect/:identifier(linkedin/x/or/anyplatforms)
-      //so you need to create a child route
-    }, 2000);
     //so if token exists, state will return back token and we can use it(required for X)
     return;
   }, []);
@@ -104,50 +122,79 @@ export function PlatFormList() {
   );
 }
 
-//this component will just render toast on dom which indicates successfull connection
+//need to hande different platform connection like linkedin sends code in query, x sends oauth_token in query and so on
+//challenge is that different platform sends different query-parameters
 
 export function AfterConnect() {
-  const { provider } = useParams(),
-    q = new URLSearchParams(useLocation().search),
+  let { provider } = useParams(),
     [data, setData] = useState<string>(),
-    [code, token] = [q.get('code'), q.get('token')],
+    [searchParams] = useSearchParams(), //.entries() -> iterator fn which can iterate over each keys
+    params = Object.fromEntries(searchParams.entries()), //
     n = useNavigate();
 
   let mount = false;
   useAsyncEffect(async () => {
     if (mount) {
-      if (code && provider) {
-        try {
-          const { data: d, err } = (
-            await customFetch(`/api/platform/connect/${provider}`, {
-              method: 'POST',
-              data: { code, token },
-            })
-          ).data;
-          if (err) {
-            alert('something went wrong');
-          }
-          setData(JSON.stringify(d));
-          console.log('resultant data from code is ', d);
-        } catch (error) {
-          console.log('errror<<<<>>>>', error);
-        }
-        n('/connect');
-        return;
+      if (provider === 'x') {
+        params = {
+          ...params,
+          code: params.oauth_verifier,
+          token: params.oauth_token,
+        };
       }
-      mount = false;
+      try {
+        console.log('params::::::;', params);
+        const {
+          data: d,
+          err,
+          error,
+        } = (
+          await customFetch(`/api/platform/connect/${provider}`, {
+            method: 'POST',
+            data: params,
+          })
+        ).data;
+        if (err) {
+          setData(JSON.stringify(error, null, 2));
+          console.log('ye to galat hai', error);
+          alert('something went wrong');
+        }
+        setData(JSON.stringify(d));
+        console.log('resultant data from code is ', d);
+      } catch (error) {
+        console.log('errror<<<<>>>>', error);
+      }
+      n('/connect');
+      return;
     }
     mount = true;
-  }, [code]);
+  }, []);
   return (
     <>
       this is after connect component of
-      {`/api/platform/connect/${provider}?code=${code}${
-        token && '&token=' + token
-      }`}
+      {searchParams.toString()}
       <br />
       <b>resultan data: </b>
       <p>{data}</p>
     </>
   );
+}
+
+function providerManager(p: { provider: string }): {
+  code?: string;
+  token?: string;
+} {
+  let searchParams = useSearchParams(useLocation().search),
+    params = Object.fromEntries(searchParams.entries()),
+    { provider } = p,
+    n = useNavigate();
+
+  if (provider === 'x') {
+    params = {
+      ...params,
+      code: params.oauth_token,
+      verifier: params.oauth_verifier,
+    };
+  }
+  return { code: '', token: '' };
 }

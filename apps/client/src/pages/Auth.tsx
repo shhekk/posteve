@@ -12,7 +12,7 @@ export function Auth() {
 
   useEffect(() => {
     if (user) {
-      console.log({ locationInAuth: location , from: location.state?.from});
+      console.log({ locationInAuth: location, from: location.state?.from });
 
       n(location.state?.from ? location.state.from : '/', {
         replace: true,

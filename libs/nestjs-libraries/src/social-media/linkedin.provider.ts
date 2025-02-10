@@ -5,7 +5,7 @@ import {
 } from './platform.interface';
 
 export class LinkedinProvider extends SocialAbstract implements SocialProvider {
-  title = 'Linkedin';
+  // title = 'Linkedin';
   logoURL =
     'https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/LinkedIn_icon.svg/1200px-LinkedIn_icon.svg.png';
   identifier = 'linkedin';

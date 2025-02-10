@@ -44,9 +44,21 @@ export class PlatformController {
 
   @Get('connect/:identifier')
   async getAuthUrl(
-    @Param('identifier', validatePlatformPipe) identifier: string
+    @Param('identifier', validatePlatformPipe) identifier: string,
+    @GetUser() user: User
   ) {
     try {
+      //check if platform already connected
+      // const { id: platformId } = await this._platformService.getPlatformId({
+      if (
+        await this._platformService.getPlatformId({
+          identifier,
+          userId: user.id,
+        })
+      ) {
+        throw new BadRequestException('platform already connected');
+      }
+
       const { url, token } = await this._platform
         .getPlatformInstance(identifier)
         .getAuthUrl();
@@ -54,7 +66,7 @@ export class PlatformController {
       return { url, ...(token ? { token } : {}) };
     } catch (error) {
       console.log(error);
-      return error;
+      return { err: error.message };
     }
   }
 
@@ -62,9 +74,9 @@ export class PlatformController {
   @Post('connect/:identifier')
   async connect(
     @Param('identifier', validatePlatformPipe) identifier: string,
-    @Query() q: any,
     @GetUser() user: User,
     @Body() body: { code: string; token: string }
+    // @Query() q: any,
   ) {
     //@todo implement pkce and add codeVerifier
     try {

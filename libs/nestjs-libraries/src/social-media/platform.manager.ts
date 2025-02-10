@@ -8,9 +8,11 @@ import { TwitterProvider } from './twitter.provider';
 import { LinkedinProvider } from './linkedin.provider';
 import { SocialProvider } from './platform.interface';
 import { PlatformLists } from '@posteve/utils/types';
+import { XProvider } from './x.provider';
 
 const socialProviders: SocialProvider[] = [
-  new TwitterProvider(),
+  // new TwitterProvider(),
+  new XProvider(),
   new LinkedinProvider(),
 ];
 
@@ -20,12 +22,12 @@ export class PlatformManager {
     /**
      * @todo
      * return {
-     * title, identifier, logoUrl,
+     * identifier, logoUrl,
      * }
      */
     return socialProviders.map((p) => ({
       identifier: p.identifier,
-      title: p.title,
+      // title: p.title,
       logoURL: p.logoURL,
     }));
   }

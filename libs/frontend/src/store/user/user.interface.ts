@@ -1,6 +1,8 @@
 import { User } from '@prisma/client';
 export interface Store {
   user: string | null; //userid
+  // userDetails: userDetails | null; //not storing userDetails in store but only user-id , storing userDetails only in cached res
+  //@idea is to only store unique values(parentValues) in store and all other children values (i.e, depends on parent value) be stored in cached res  
 }
 export interface Actions {
   auth: () => boolean;

@@ -19,23 +19,11 @@ export class TwitterProvider extends SocialAbstract implements SocialProvider {
     hash_function: (baseString, key) =>
       createHmac('sha1', key).update(baseString).digest('base64'),
   });
-  title = 'X';
+  // title = 'X';
   logoURL = 'https://upload.wikimedia.org/wikipedia/commons/b/b7/X_logo.jpg';
   identifier = 'x';
   redirect_uri = process.env['FRONTEND_URL']! + `/connect/${this.identifier}`;
   scope: string[] = [];
-  // constructor() {
-  // super();
-  // this.oauth = new OAuth({
-  //   consumer: {
-  //     key: process.env.X_APP_KEY!,
-  //     secret: process.env.X_APP_SECRET!,
-  //   },
-  //   signature_method: 'HMAC-SHA1',
-  //   hash_function: (baseString, key) =>
-  //     createHmac('sha1', key).update(baseString).digest('base64'),
-  // });
-  // }
 
   async post(accessToken: string, data: PostDetails) {
     const [key, secret] = accessToken.split(':');
@@ -130,11 +118,21 @@ export class TwitterProvider extends SocialAbstract implements SocialProvider {
       })
     );
 
-    const res = await axios.post(requestTokenURL, null, {
-      headers: {
-        Authorization: authHeader.Authorization,
+    // const res = await axios.post(requestTokenURL, null, {
+    //   headers: {
+    //     Authorization: authHeader.Authorization,
+    //   },
+    // });
+    const res = await this.fetch(
+      requestTokenURL,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: authHeader.Authorization,
+        },
       },
-    });
+      'twitter:getReqestToken'
+    );
 
     if (res.data) {
       return this.parse(res.data, 'request Token response'); //returns request token/secret //oauth_token=xx&oauth_token_secret=xx&oauth_callback_confirmed=true

@@ -1,7 +1,8 @@
 import { SocialProvider } from '@posteve/nestjs-libraries/social-media/platform.interface';
 
 export type PlatformLists = Array<
-  Pick<SocialProvider, 'title' | 'identifier' | 'logoURL'> & {
+  // Pick<SocialProvider, 'title' | 'identifier' | 'logoURL'> & {
+  Pick<SocialProvider, 'identifier' | 'logoURL'> & {
     [key: string]: string;
   }
 >;

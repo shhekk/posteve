@@ -17,7 +17,7 @@ export interface AuthTokenBody {
 }
 
 export interface SocialProvider extends SocialAbstract {
-  title: string;
+  // title: string;
   logoURL: string;
   //required for frontend as, renders supported platforms title and logo in DOM
   identifier: string;
@@ -48,7 +48,7 @@ export abstract class SocialAbstract {
   async fetch<T = any>(
     url: string,
     options: axios.AxiosRequestConfig,
-    identifier: string
+    identifier: string = 'none'
   ) {
     //the only use of this function is it gurantees a successfull result.
     const res = await axios<T>(url, {
@@ -61,6 +61,12 @@ export abstract class SocialAbstract {
       const err = 'Rate limit excedded';
       throw new fetchError(res.data, 429, err, identifier);
     }
+
+    console.log(
+      identifier,
+      'error in fetch::::',
+      JSON.stringify(res.data, null, 2)
+    );
 
     //using Error('only string can be pass here') so i made my own class which will be passed to catch(obj)
     //use this as catch(err) err.status, err.statustext, ...

@@ -1,31 +1,31 @@
-import { customFetch } from '@posteve/utils/fetch/customFetch';
+import { usePlatform } from '@client/lib/store/Platform';
 import { PlatformLists } from '@posteve/utils/types';
 import { useAsyncEffect } from './useAsyncEffect';
 import { useState } from 'react';
 
-const cache = new Map<string, PlatformLists>();
-
 export const usePlatformList = () => {
-  const [providers, setProviders] = useState<PlatformLists>();
+  const [providers, setProviders] = useState<PlatformLists>(),
+    { fetchPlatforms } = usePlatform();
 
   useAsyncEffect(async () => {
     let p: PlatformLists;
-    if (!cache.has('providers')) {
-      const { data } = await customFetch<PlatformLists>('/api/platform', {
-        method: 'GET',
-      });
-      if (!data) {
-        throw new Error('Something went wrong in GET /platform');
-      }
-      p = data.map((d) => ({ ...d, key: d.identifier }));
-      console.log('providers fetched from server', p);
-      cache.set('providers', p!);
-    } else {
-      p = cache.get('providers')!;
-      console.log('providers cached', p);
-    }
-    setProviders(p);
+
+    fetchPlatforms()
+      .then((data) => {
+        p = data.map((d) => ({
+          ...d,
+          key: d.identifier,
+          title: toCamelCase(d.identifier),
+        }));
+        setProviders(p);
+      })
+      .catch((err) => console.log('error in usePlatformList', err));
   }, []);
 
   return { platformList: providers as PlatformLists };
 };
+
+function toCamelCase(s: string) {
+  let str = [...s];
+  return [str.shift()?.toUpperCase(), ...str].join('');
+}
