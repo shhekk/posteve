@@ -8,10 +8,14 @@ import { useEffect, useState } from 'react';
 export function RootLayout() {
   const [init, setInit] = useState(false);
   const { user } = useUserStore();
-  const { sm } = useWidth();
+  const { lg } = useWidth();
   const [collapse, setCollapse] = useState<boolean>(
-    localStorage.getItem('collapse') === 'true' ? true : false
+    localStorage.getItem('collapse') === 'true'
   );
+
+  useEffect(() => {
+    !lg ? setCollapse(localStorage.getItem('collapse') === 'true') : setCollapse(true);
+  }, [lg]);
 
   useEffect(() => {
     console.log('rootlayout rendered', user);
@@ -96,7 +100,7 @@ export function RootLayout() {
               onClick={() => {
                 //@todo fix collapse localstorage -- or -- set collpase in zustand appearence store
                 setCollapse((prev) => {
-                  localStorage.setItem('collapse', String(!prev));
+                  md && localStorage.setItem('collapse', String(!prev));
                   return !prev;
                 });
               }}

@@ -1,19 +1,16 @@
 version: '3'
 services:
   db:
-    image: postgres
+    image: postgres:17-alpine
     restart: always
     ports:
       - 5432:5432
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=secret
-      - POSTGRES_DB=posteve-db
+      - POSTGRES_DB=postevedb
     volumes:
-      - ./data/db:/var/lib/postgresql/data
+      - posteve-db:/var/lib/postgresql/data
 
-  # adminer:
-  #   image: adminer
-  #   restart: always
-  #   ports:
-  #     - 8080:8080
+volumes:
+  posteve-db:

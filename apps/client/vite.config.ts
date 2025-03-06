@@ -20,13 +20,8 @@ export default defineConfig({
         changeOrigin: false,
         rewrite: (path) => path.replace(/^\/api/, ''),
         configure: (p, o) => {
-          // p.on('proxyRes', (pr, req) => {
-          //   console.warn({
-          //     url: req.url,
-          //     base: o.target,
-          //     joinedURL: new URL(req.url!, o.target as string),
-          //   });
-          // });
+          //uncomment this line to log resolved URL of the proxied request.
+          // p.on('proxyRes', (_, req) => { console.warn({proxiedURL: o.target!+req.url!}) });
           p.on('error', (err, req, res, target) => {
             if (err) {
               const api = new URL(`api${req.url}`, o.target as string);

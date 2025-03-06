@@ -3,6 +3,8 @@
 #extras
 .env
 localStorage/
+todo.md
+notes.md
 
 # compiled output
 dist

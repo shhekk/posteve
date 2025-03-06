@@ -12,10 +12,10 @@ export const useWidth = () => {
   const { width } = useWindowSize();
 
   return {
-    sm: width >= TailwindBreakpoint.sm,
-    md: width >= TailwindBreakpoint.md,
-    lg: width >= TailwindBreakpoint.lg,
-    xl: width >= TailwindBreakpoint.xl,
-    xxl: width >= TailwindBreakpoint.xxl,
+    sm: width <= TailwindBreakpoint.sm,
+    md: width <= TailwindBreakpoint.md,
+    lg: width <= TailwindBreakpoint.lg,
+    xl: width <= TailwindBreakpoint.xl,
+    xxl: width <= TailwindBreakpoint.xxl,
   };
 };
